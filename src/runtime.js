@@ -2,6 +2,8 @@
 import {init} from "snabbdom";
 import h from "snabbdom/h";
 import eventListenersModule from "snabbdom/modules/eventlisteners";
+import { runEffects, tap } from "@most/core";
+import { newDefaultScheduler } from "@most/scheduler";
 
 let patch = init([
   eventListenersModule
@@ -29,7 +31,25 @@ export const sandbox = function({ initModel, update, view }) {
   runUpdate();
 };
 
-export const action = msg => () => runUpdate(msg);
+class CommandStream {
+  constructor(msg) {
+    this.msg = msg;
+  }
+
+  run(sink, scheduler) {
+    sink.event(scheduler, this.msg);
+    return { 
+      dispose() {}
+    }
+  }
+}
+
+export const action = msg => {
+  const action$ = new CommandStream(msg);
+  return function() { 
+    runEffects(tap(runUpdate, action$), newDefaultScheduler()); 
+  };
+}
 
 export default {
   action,

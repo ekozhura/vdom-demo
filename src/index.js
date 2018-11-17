@@ -1,6 +1,6 @@
 // @flow
 import Snabbdom from 'snabbdom-pragma';
-import { sandbox, action } from "./elmlike";
+import { sandbox, action } from "./runtime";
 
 const initModel = 0;
 const increment = Symbol("increment");
