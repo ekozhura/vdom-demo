@@ -14,6 +14,8 @@
     "@most/dom-event": "^2.0.0",
     "@most/scheduler": "^1.2.1",
     "@most/types": "^1.0.1",
+    "@most/xhr": "^0.1.0",
+    "ramda": "^0.26.0",
     "snabbdom": "^0.7.2",
     "snabbdom-pragma": "^2.7.0"
   },
